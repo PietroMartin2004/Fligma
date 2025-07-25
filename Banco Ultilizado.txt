@@ -1,29 +1,22 @@
--- SQL para o banco de dados 'fligma' (VERSÃO ATUALIZADA)
+-- 'fligma'
 
--- Apaga o banco de dados existente se ele já existir (USE COM CAUTELA!)
--- DROP DATABASE IF EXISTS fligma;
--- CREATE DATABASE fligma CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
--- USE fligma;
-
--- Cria a tabela 'usuarios' com as novas colunas para médicos
 CREATE TABLE `usuarios` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `nome` varchar(255) NOT NULL,
   `email` varchar(255) NOT NULL,
   `senha` varchar(255) NOT NULL,
-  `tipo` varchar(50) DEFAULT 'cliente', -- 'cliente' ou 'medico'
-  `crm` varchar(50) DEFAULT NULL,       -- Novo campo para o CRM do médico
-  `especialidade_medica` varchar(100) DEFAULT NULL, -- Novo campo para a especialidade do médico
+  `tipo` varchar(50) DEFAULT 'cliente',
+  `crm` varchar(50) DEFAULT NULL,
+  `especialidade_medica` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Cria a tabela 'consultas' (sem alterações nesta tabela)
 CREATE TABLE `consultas` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `usuario_id` int(11) NOT NULL, -- Será o ID do cliente
-  `medico_id` int(11) DEFAULT NULL, -- NOVO CAMPO: ID do médico que fará a consulta
-  `medico_nome` varchar(255) NOT NULL, -- Mantido por conveniência, mas idealmente usaria medico_id
+  `usuario_id` int(11) NOT NULL,
+  `medico_id` int(11) DEFAULT NULL,
+  `medico_nome` varchar(255) NOT NULL,
   `data_consulta` date NOT NULL,
   `hora_consulta` time NOT NULL,
   `especialidade` varchar(100) DEFAULT NULL,
@@ -37,8 +30,7 @@ CREATE TABLE `consultas` (
   CONSTRAINT `fk_medico_id` FOREIGN KEY (`medico_id`) REFERENCES `usuarios` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
--- Adicione alguns dados de teste para um médico (opcional)
 INSERT INTO `usuarios` (`nome`, `email`, `senha`, `tipo`, `crm`, `especialidade_medica`) VALUES
 ('Dr. João Silva', 'joao.silva@medico.com', '$2y$10$wN9P3X.f2D6L5V7K8O9P.uJ1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u', 'medico', 'CRM/SP 123456', 'Cardiologia'),
 ('Dra. Maria Souza', 'maria.souza@medico.com', '$2y$10$wN9P3X.f2D6L5V7K8O9P.uJ1b2c3d4e5f6g7h8i9j0k1l2m3n4o5p6q7r8s9t0u', 'medico', 'CRM/RJ 654321', 'Dermatologia');
--- A senha de teste para ambos é '123456'
+--senha'123456'
